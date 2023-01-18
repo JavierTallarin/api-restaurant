@@ -1,28 +1,32 @@
 package com.example.apijpa.controller;
 
 import com.example.apijpa.domain.Restaurant;
+import com.example.apijpa.service.RestaurantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/restaurant")
 public class RestaurantController {
+    private final RestaurantService restaurantService;
+
+    public RestaurantController(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
+    }
+
     @GetMapping({"", "/"})
     public ResponseEntity<List<Restaurant>> getRestaurants(){
-        Restaurant a = Restaurant.builder().id("1").name("mcd").address("hola").numberPhone("sddsd").build();
-        Restaurant b = Restaurant.builder().id("2").name("mcd2").address("hola").numberPhone("sddsd").build();
-        Restaurant c = Restaurant.builder().id("3").name("mcd2").address("hola").numberPhone("sddsd").build();
 
-        List<Restaurant> list = List.of(a, b, c);
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(this.restaurantService.getRestaurants());
+
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> getRestaurantsById(@PathVariable String id) throws IOException {
         Restaurant a = Restaurant.builder().id("1").name("mcd").address("hola").numberPhone("sddsd").build();
